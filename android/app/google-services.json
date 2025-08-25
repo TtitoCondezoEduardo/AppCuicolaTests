@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "280444088927",
+    "project_id": "app-acuicola-ba615",
+    "storage_bucket": "app-acuicola-ba615.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:280444088927:android:2232176277e4b548efa1ea",
+        "android_client_info": {
+          "package_name": "com.acuivetsac.appacuicola"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcKOjrMqkfc_h9Sl6MT980uGLi8lv7nR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
