@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:go_router/go_router.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ResumenScreen extends StatefulWidget {
   const ResumenScreen({super.key});
@@ -17,9 +18,55 @@ class ResumenScreen extends StatefulWidget {
 class _ResumenScreenState extends State<ResumenScreen> {
 
   String? _fechaUltimaCita;
+  String? _horaUltimaCita;
   bool _aceptaTerminos = false;
   String? _nombreArchivo;
   File? _archivoSeleccionado;
+
+  final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  @override
+  void initState() {
+    super.initState();
+    _obtenerUltimaCita();
+    _initializeNotifications();
+  }
+
+  void _initializeNotifications() async {
+    const AndroidInitializationSettings androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const InitializationSettings initSettings =
+        InitializationSettings(android: androidSettings);
+
+    await _localNotificationsPlugin.initialize(initSettings);
+
+    // Solicitar permisos de notificaciones en Android 13+
+    if (await Permission.notification.isDenied) {
+      await Permission.notification.request();
+    }
+  }
+
+  Future<void> _mostrarNotificacion(String fecha) async {
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'citas_channel',
+      'Recordatorios de Citas',
+      channelDescription: 'Canal para notificar citas locales',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails platformDetails =
+        NotificationDetails(android: androidDetails);
+
+    await _localNotificationsPlugin.show(
+      0,
+      'Cita confirmada',
+      'Tu cita ha sido confirmada para el $fecha',
+      platformDetails,
+    );
+  }
 
   Future<void> _seleccionarArchivo() async {
     final resultado = await FilePicker.platform.pickFiles(
@@ -32,48 +79,6 @@ class _ResumenScreenState extends State<ResumenScreen> {
         _archivoSeleccionado = File(resultado.files.single.path!);
         _nombreArchivo = resultado.files.single.name;
       });
-    }
-  }
-
-  Future<void> _subirArchivoAFirebase() async {
-
-    if (_archivoSeleccionado == null) return;
-    
-    try {
-      // Extraer nombre y extensión
-      final nombreOriginal = _nombreArchivo!.split('.').first;
-      final extension = _nombreArchivo!.split('.').last;
-
-      // Crear fecha formateada
-      final fecha = DateFormat('yyyy-MM-dd_HH-mm-ss').format(DateTime.now());
-
-      // Nombre único
-      final nombreUnico = '${nombreOriginal}_$fecha.$extension';
-
-      // Referencia en Firebase Storage
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('constancias_pago')
-          .child(nombreUnico);
-
-      // Subida
-      await ref.putFile(_archivoSeleccionado!);
-
-      // Obtener URL de descarga
-      final url = await ref.getDownloadURL();
-
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Archivo subido con éxito: $nombreUnico')),
-      );
-
-      debugPrint('URL de descarga: $url');
-    } catch (e) {
-      debugPrint('Error completo al subir archivo: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al subir archivo: $e')),
-      );
     }
   }
 
@@ -93,15 +98,30 @@ class _ResumenScreenState extends State<ResumenScreen> {
       final data = snapshot.docs.first.data();
       setState(() {
         _fechaUltimaCita = data['fecha'];
+        _horaUltimaCita = data['hora'];
       });
     }
-
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _obtenerUltimaCita();
+  void _continuar() async {
+    if (_aceptaTerminos && _archivoSeleccionado != null) {
+      // Mostrar notificación de cita confirmada
+      if (_fechaUltimaCita != null) {
+        await _mostrarNotificacion(_fechaUltimaCita!);
+      }
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Cita confirmada exitosamente'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      
+      // Navegar al home del proyecto
+      context.go('/home');
+    }
   }
 
   @override
@@ -126,13 +146,27 @@ class _ResumenScreenState extends State<ResumenScreen> {
 
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: Text(
-                'Fecha de la cita: $_fechaUltimaCita',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Fecha de la cita: $_fechaUltimaCita',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Hora de la cita: $_horaUltimaCita',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             
@@ -225,7 +259,7 @@ class _ResumenScreenState extends State<ResumenScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: (_aceptaTerminos && _archivoSeleccionado != null)
-                    ? _subirArchivoAFirebase
+                    ? _continuar
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,

@@ -123,7 +123,7 @@ class _AlertaInmediataScreenState extends State<AlertaInmediataScreen> {
                     child: ElevatedButton(
                       onPressed: _confirmarCita,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF7F56D9), // morado
+                        backgroundColor: const Color(0xFF7F56D9),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
@@ -134,7 +134,7 @@ class _AlertaInmediataScreenState extends State<AlertaInmediataScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      child: const Text('Confirmar Cita'),
+                      child: const Text('Siguiente'),
                     ),
                   ),
                 ],
