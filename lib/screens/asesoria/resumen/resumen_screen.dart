@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
 class ResumenScreen extends StatefulWidget {
   const ResumenScreen({super.key});
@@ -68,6 +70,46 @@ class _ResumenScreenState extends State<ResumenScreen> {
     );
   }
 
+  // Future<void> _enviarWhatsApp() async {
+  //   const String accessToken = 'EAA7Byo9BoRIBPfJneKSGlv5f18PDexumXiFlrAtwZCAoRU6ZAj8Kol2IEE5d9WRjq5a2CF3oXSGTZBtPwIDoxFAUqMe2fsDqbzxbUsTP5C4JBAPTEMYRDZBoFw42nOiZBeSvQaOWLBnFmwWkUZC8VavTkgIvM3VEaczZBf6kIBZBn446lTYzpKNrFXGQzJXKR9XhKuXnu0QE7urepuSR83tZBiNShdB06HtbHEXX3VsJqZCWBycXMZD';
+  //   const String phoneNumberId = '796399373553261';
+  //   const String numeroDestino = '51902374853';
+    
+  //   final String mensaje = 'Hola! Tu cita ha sido confirmada para el $_fechaUltimaCita a las $_horaUltimaCita. Doctor AppAcuicola. Este es el link de tu Zoom: https://www.zoom.com/';
+    
+  //   debugPrint('Enviando WhatsApp a: $numeroDestino');
+  //   debugPrint('Mensaje: $mensaje');
+    
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('https://graph.facebook.com/v22.0/$phoneNumberId/messages'),
+  //       headers: {
+  //         'Authorization': 'Bearer $accessToken',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: jsonEncode({
+  //         'messaging_product': 'whatsapp',
+  //         'to': numeroDestino,
+  //         'type': 'text',
+  //         'text': {
+  //           'body': mensaje,
+  //         },
+  //       }),
+  //     );
+
+  //     debugPrint('Status code: ${response.statusCode}');
+  //     debugPrint('Response body: ${response.body}');
+
+  //     if (response.statusCode == 200) {
+  //       debugPrint('WhatsApp enviado exitosamente');
+  //     } else {
+  //       debugPrint('Error al enviar WhatsApp: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Excepción al enviar WhatsApp: $e');
+  //   }
+  // }
+
   Future<void> _seleccionarArchivo() async {
     final resultado = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -109,6 +151,9 @@ class _ResumenScreenState extends State<ResumenScreen> {
       if (_fechaUltimaCita != null) {
         await _mostrarNotificacion(_fechaUltimaCita!);
       }
+      
+      // Enviar WhatsApp de confirmación
+      // await _enviarWhatsApp();
       
       if (!mounted) return;
       

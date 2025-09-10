@@ -1,9 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  // Future<void> _enviarSMS() async {
+  //   const String accountSid = 'ACc425f16dd8aa6bb7d430f083eb019892';
+  //   const String authToken = '714d2e64c3759d32051a56711120adee';
+  //   const String numeroTwilio = '+18316660451';
+  //   const String numeroDestino = '+51902374853';
+  //   const String mensaje = 'Hola! Tu cita ha sido confirmada. Esta es una prueba desde Doctor AppAcuicola.';
+
+  //   final String url = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
+
+  //   try {
+  //     // Debug: verificar credenciales
+  //     debugPrint('Account SID: $accountSid');
+  //     debugPrint('Auth Token length: ${authToken.length}');
+      
+  //     final String credentials = base64Encode(utf8.encode('$accountSid:$authToken'));
+  //     debugPrint('Credentials encoded: ${credentials.substring(0, 20)}...'); // Solo primeros 20 caracteres por seguridad
+      
+  //     final response = await http.post(
+  //       Uri.parse(url),
+  //       headers: {
+  //         'Authorization': 'Basic $credentials',
+  //         'Content-Type': 'application/x-www-form-urlencoded',
+  //       },
+  //       body: {
+  //         'From': numeroTwilio,
+  //         'To': numeroDestino,
+  //         'Body': mensaje,
+  //       },
+  //     );
+
+  //     debugPrint('Status code: ${response.statusCode}');
+  //     debugPrint('Response body: ${response.body}');
+
+  //     if (response.statusCode == 201) {
+  //       if (mounted) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(
+  //             content: Text('SMS enviado exitosamente'),
+  //             backgroundColor: Colors.green,
+  //           ),
+  //         );
+  //       }
+  //       debugPrint('SMS enviado exitosamente');
+  //     } else {
+  //       debugPrint('Error al enviar SMS: ${response.statusCode}');
+  //       if (mounted) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: Text('Error al enviar SMS: ${response.statusCode}'),
+  //             backgroundColor: Colors.red,
+  //           ),
+  //         );
+  //       }
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Excepción al enviar SMS: $e');
+  //     if (mounted) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text('Error: $e'),
+  //           backgroundColor: Colors.red,
+  //         ),
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,26 +132,24 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // NUEVO: Tienda
+                // Tienda
                 _HomeOption(
                   icon: Icons.store,
                   label: "Tienda",
                   onTap: () {
-                    final Uri url = Uri.parse('https://acuivetsac.com/shop'); // ← Cambia la URL aquí
+                    final Uri url = Uri.parse('https://acuivetsac.com/shop');
                     launchUrl(url, mode: LaunchMode.externalApplication);
                   },
                 ),
                 const SizedBox(height: 16),
 
-                
-                // // Historial
+                // // SMS - Prueba
                 // _HomeOption(
-                //   icon: Icons.history,
-                //   label: "Historial",
-                //   onTap: () => context.push('/historial-citas'),
+                //   icon: Icons.sms,
+                //   label: "Enviar SMS de prueba",
+                //   onTap: _enviarSMS,
                 // ),
                 // const SizedBox(height: 16),
-                
 
                 const SizedBox(height: 24),
 
