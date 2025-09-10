@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,67 +11,31 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  // Future<void> _enviarSMS() async {
-  //   
-  //   const String mensaje = 'Hola! Tu cita ha sido confirmada. Esta es una prueba desde Doctor AppAcuicola.';
-
-  //   final String url = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
-
+  // Future<void> _enviarMensajeWhatsApp() async {
+  //   const String numeroTelefono = "51902374853"; // Tu número real
+  //   const String mensaje = "Hola! Esta es una prueba desde la app Doctor AppAcuícola";
+    
+  //   final String url = "https://wa.me/$numeroTelefono?text=${Uri.encodeComponent(mensaje)}";
+    
+  //   debugPrint('Intentando abrir URL: $url'); // Para debug
+    
   //   try {
-  // Debug: verificar credenciales
-  //     debugPrint('Account SID: $accountSid');
-  //     debugPrint('Auth Token length: ${authToken.length}');
-      
-  //     final String credentials = base64Encode(utf8.encode('$accountSid:$authToken'));
-  //     debugPrint('Credentials encoded: ${credentials.substring(0, 20)}...'); // Solo primeros 20 caracteres por seguridad
-      
-  //     final response = await http.post(
-  //       Uri.parse(url),
-  //       headers: {
-  //         'Authorization': 'Basic $credentials',
-  //         'Content-Type': 'application/x-www-form-urlencoded',
-  //       },
-  //       body: {
-  //         'From': numeroTwilio,
-  //         'To': numeroDestino,
-  //         'Body': mensaje,
-  //       },
-  //     );
-
-  //     debugPrint('Status code: ${response.statusCode}');
-  //     debugPrint('Response body: ${response.body}');
-
-  //     if (response.statusCode == 201) {
-  //       if (mounted) {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           const SnackBar(
-  //             content: Text('SMS enviado exitosamente'),
-  //             backgroundColor: Colors.green,
-  //           ),
-  //         );
-  //       }
-  //       debugPrint('SMS enviado exitosamente');
+  //     final Uri uri = Uri.parse(url);
+  //     if (await canLaunchUrl(uri)) {
+  //       await launchUrl(uri, mode: LaunchMode.externalApplication);
+  //       debugPrint('WhatsApp abierto exitosamente');
   //     } else {
-  //       debugPrint('Error al enviar SMS: ${response.statusCode}');
-  //       if (mounted) {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(
-  //             content: Text('Error al enviar SMS: ${response.statusCode}'),
-  //             backgroundColor: Colors.red,
-  //           ),
-  //         );
-  //       }
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Excepción al enviar SMS: $e');
-  //     if (mounted) {
+  //       debugPrint('No se puede lanzar la URL');
+  //       // Mostrar mensaje de error al usuario
   //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text('Error: $e'),
-  //           backgroundColor: Colors.red,
-  //         ),
+  //         const SnackBar(content: Text('No se puede abrir WhatsApp')),
   //       );
   //     }
+  //   } catch (e) {
+  //     debugPrint('Error al abrir WhatsApp: $e');
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Error: $e')),
+  //     );
   //   }
   // }
 
@@ -140,13 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // // SMS - Prueba
-                // _HomeOption(
-                //   icon: Icons.sms,
-                //   label: "Enviar SMS de prueba",
-                //   onTap: _enviarSMS,
-                // ),
-                // const SizedBox(height: 16),
+                // FUNCIONALIDAD SMS COMENTADA
+                /*
+                // SMS - Prueba
+                _HomeOption(
+                  icon: Icons.sms,
+                  label: "Enviar SMS de prueba",
+                  onTap: _enviarSMS,
+                ),
+                const SizedBox(height: 16),
+                */
 
                 const SizedBox(height: 24),
 
