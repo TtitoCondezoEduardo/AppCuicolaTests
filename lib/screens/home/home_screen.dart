@@ -14,16 +14,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   // Future<void> _enviarSMS() async {
-  //   const String accountSid = 'ACc425f16dd8aa6bb7d430f083eb019892';
-  //   const String authToken = '714d2e64c3759d32051a56711120adee';
-  //   const String numeroTwilio = '+18316660451';
-  //   const String numeroDestino = '+51902374853';
+  //   
   //   const String mensaje = 'Hola! Tu cita ha sido confirmada. Esta es una prueba desde Doctor AppAcuicola.';
 
   //   final String url = 'https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json';
 
   //   try {
-  //     // Debug: verificar credenciales
+  // Debug: verificar credenciales
   //     debugPrint('Account SID: $accountSid');
   //     debugPrint('Auth Token length: ${authToken.length}');
       
