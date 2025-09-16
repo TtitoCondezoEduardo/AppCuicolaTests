@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:nueva_mascara/screens/join_meeting_screen.dart';
 
 class AsesoriaScreen extends StatelessWidget {
   const AsesoriaScreen({super.key});
@@ -44,9 +44,10 @@ class AsesoriaScreen extends StatelessWidget {
                 'Realiza las videoconsultas que necesites desde tu casa y atiéndete con los mejores especialistas.',
             color: const Color(0xFF2C2A32),
             onTap: () {
-              final Uri url = Uri.parse('https://www.zoom.com/es');
-              launchUrl(url, mode: LaunchMode.externalApplication);
-            },
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context) => JoinMeetingScreen())
+              );
+            },  
           ),
           const SizedBox(height: 16),
 
