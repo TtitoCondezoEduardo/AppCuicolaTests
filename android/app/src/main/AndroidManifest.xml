@@ -1,10 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+   <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:label="nueva_mascara"
@@ -15,7 +18,7 @@
         <!-- Canal de notificación predeterminado -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="default_channel_id"/>
+            android:value="YOUR_NOTIFICATION_CHANNEL_ID"/>
 
         <!-- Servicio de notificaciones (con tools:replace para evitar colisión) -->
         <service
@@ -46,7 +49,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
+     <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBLZP0t_8PTNoGMTQ9uJfnUNSokN_YJEAE" />
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
